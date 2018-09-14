@@ -1,0 +1,5 @@
+pre_remove() {
+  /usr/lib/snapd/snap-mgmt --purge || :
+}
+
+# vim:set ts=2 sw=2 et:
