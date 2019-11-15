@@ -17,8 +17,8 @@
 
 pkgname=('google-compute-engine' 'google-compute-engine-oslogin')
 pkgver=20190801
-pkgrel=1
-arch=('any' 'x86_64')
+pkgrel=2
+arch=('x86_64')
 url='https://github.com/GoogleCloudPlatform/compute-image-packages'
 license=('Apache')
 makedepends=('curl' 'json-c' 'pam' 'python-boto' 'python-distro' 'python-setuptools')

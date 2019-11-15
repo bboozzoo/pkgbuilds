@@ -1,8 +1,7 @@
 pkgbase = google-compute-engine
 	pkgver = 20190801
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/GoogleCloudPlatform/compute-image-packages
-	arch = any
 	arch = x86_64
 	license = Apache
 	makedepends = curl
