@@ -9,7 +9,7 @@ depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'apparmor')
 optdepends=('bash-completion: bash completion support'
             'xdg-desktop-portal: desktop integration')
 pkgver=2.62
-pkgrel=1
+pkgrel=2
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
 url="https://github.com/snapcore/snapd"
 license=('GPL3')
@@ -50,6 +50,8 @@ prepare() {
 build() {
   cd "$pkgname-$pkgver"
   export GOPATH="$srcdir/go"
+
+  unset GO111MODULE
 
   # GOFLAGS may be modified by CI tools
   # GOFLAGS are the go build flags for all binaries, GOFLAGS_SNAP are for snap
