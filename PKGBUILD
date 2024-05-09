@@ -9,7 +9,7 @@ depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'apparmor')
 optdepends=('bash-completion: bash completion support'
             'xdg-desktop-portal: desktop integration')
 pkgver=2.62
-pkgrel=2
+pkgrel=3
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
 url="https://github.com/snapcore/snapd"
 license=('GPL3')
@@ -19,8 +19,12 @@ options=('!strip' 'emptydirs' '!lto')
 install=snapd.install
 source=(
     "$pkgname-$pkgver.tar.xz::https://github.com/snapcore/${pkgname}/releases/download/${pkgver}/${pkgname}_${pkgver}.vendor.tar.xz"
+    "0001-cmd-snap-seccomp-define-GNU_SOURCE-for-fallocate.patch"
 )
-sha256sums=('e4bcf0d7677afdcb7256958fd382a5aad71db13474c08e5828e913614ee88ea8')
+sha256sums=(
+    'e4bcf0d7677afdcb7256958fd382a5aad71db13474c08e5828e913614ee88ea8'
+    'f96cb34620105ae654f84296b8bbbc938608ff117dc987fbe1274f61681e333f'
+)
 
 
 _gourl=github.com/snapcore/snapd

@@ -1,0 +1,30 @@
+From 876eca2d7e8e1741a160c7d837a181ce8fb8b26d Mon Sep 17 00:00:00 2001
+Message-ID: <876eca2d7e8e1741a160c7d837a181ce8fb8b26d.1715268985.git.maciej.borzecki@canonical.com>
+From: Maciej Borzecki <maciej.borzecki@canonical.com>
+Date: Thu, 9 May 2024 17:23:50 +0200
+Subject: [PATCH] cmd/snap-seccomp: define GNU_SOURCE for fallocate
+
+Snap-seccomp stopped building on Arch since glibc got updated which revealed a
+source code problem in our code with a missing _GNU_SOURCE define.
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@canonical.com>
+---
+ cmd/snap-seccomp/main.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmd/snap-seccomp/main.go b/cmd/snap-seccomp/main.go
+index 49a8171817013e7f04047a7b71dfd493679a9463..7c24aaba254171b233e212397ef284a9669c438c 100644
+--- a/cmd/snap-seccomp/main.go
++++ b/cmd/snap-seccomp/main.go
+@@ -19,7 +19,7 @@
+ 
+ package main
+ 
+-//#cgo CFLAGS: -D_FILE_OFFSET_BITS=64
++//#cgo CFLAGS: -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE
+ //#cgo pkg-config: libseccomp
+ //#cgo LDFLAGS:
+ //
+-- 
+2.44.0
+
