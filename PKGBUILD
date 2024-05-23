@@ -8,8 +8,8 @@ pkgdesc="Service and tools for management of snap packages."
 depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'apparmor')
 optdepends=('bash-completion: bash completion support'
             'xdg-desktop-portal: desktop integration')
-pkgver=2.62
-pkgrel=3
+pkgver=2.63
+pkgrel=1
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
 url="https://github.com/snapcore/snapd"
 license=('GPL3')
@@ -22,7 +22,7 @@ source=(
     "0001-cmd-snap-seccomp-define-GNU_SOURCE-for-fallocate.patch"
 )
 sha256sums=(
-    'e4bcf0d7677afdcb7256958fd382a5aad71db13474c08e5828e913614ee88ea8'
+    '2f0083d2c4e087c29f48cd1abb8a92eb2e63cf04cd433256c86fac05d0b28cab'
     'f96cb34620105ae654f84296b8bbbc938608ff117dc987fbe1274f61681e333f'
 )
 
