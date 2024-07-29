@@ -1,0 +1,51 @@
+From 2551325ad485933a5ce423efd52564873852fe41 Mon Sep 17 00:00:00 2001
+Message-ID: <2551325ad485933a5ce423efd52564873852fe41.1722255401.git.maciej.borzecki@canonical.com>
+From: Maciej Borzecki <maciej.borzecki@canonical.com>
+Date: Mon, 29 Jul 2024 14:16:16 +0200
+Subject: [PATCH] packaging: allow passing additional Go build and ldflags
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@canonical.com>
+---
+ packaging/snapd.mk | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/packaging/snapd.mk b/packaging/snapd.mk
+index 4647e7d370242e0fa98162e7941aa01620379998..fac68c7ad1429e9e420454a2d3af56408c5d799e 100644
+--- a/packaging/snapd.mk
++++ b/packaging/snapd.mk
+@@ -72,8 +72,9 @@ $(builddir)/snap: GO_TAGS += nomanagers
+ $(builddir)/snap $(builddir)/snap-seccomp $(builddir)/snapd-apparmor:
+ 	go build -o $@ $(if $(GO_TAGS),-tags "$(GO_TAGS)") \
+ 		-buildmode=pie \
+-		-ldflags="-w -B 0x$$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')" \
++		-ldflags="-B 0x$$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') $(EXTRA_GO_LDFLAGS)" \
+ 		-mod=vendor \
++		$(EXTRA_GO_BUILD_FLAGS) \
+ 		$(import_path)/cmd/$(notdir $@)
+ 
+ # Those three need to be built as static binaries. They run on the inside of a
+@@ -84,7 +85,8 @@ $(builddir)/snap-update-ns $(builddir)/snap-exec $(builddir)/snapctl:
+ 	# used
+ 	go build -o $@ -buildmode=default -mod=vendor \
+ 		$(if $(GO_TAGS),-tags "$(GO_TAGS)") \
+-		-ldflags '-linkmode external -extldflags "-static"' \
++		-ldflags '-linkmode external -extldflags "-static" $(EXTRA_GO_LDFLAGS)' \
++		$(EXTRA_GO_BUILD_FLAGS) \
+ 		$(import_path)/cmd/$(notdir $@)
+ 
+ # XXX see the note about build ID in rule for building 'snap'
+@@ -92,9 +94,10 @@ $(builddir)/snap-update-ns $(builddir)/snap-exec $(builddir)/snapctl:
+ # suite to add test assertions. Do not enable this in distribution packages.
+ $(builddir)/snapd:
+ 	go build -o $@ -buildmode=pie \
+-		-ldflags="-w -B 0x$$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')" \
++		-ldflags="-B 0x$$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') $(EXTRA_GO_LDFLAGS)" \
+ 		-mod=vendor \
+ 		$(if $(GO_TAGS),-tags "$(GO_TAGS)") \
++		$(EXTRA_GO_BUILD_FLAGS) \
+ 		$(import_path)/cmd/$(notdir $@)
+ 
+ # Know how to create certain directories.
+-- 
+2.45.2
+
