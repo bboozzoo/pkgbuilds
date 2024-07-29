@@ -1,0 +1,56 @@
+From 62e1d60f42bd4a584cd22e15d64708613ea3388b Mon Sep 17 00:00:00 2001
+Message-ID: <62e1d60f42bd4a584cd22e15d64708613ea3388b.1722255903.git.maciej.borzecki@canonical.com>
+From: Maciej Borzecki <maciej.borzecki@canonical.com>
+Date: Thu, 23 May 2024 14:32:41 +0200
+Subject: [PATCH] packaging/snapd.mk: generate GNU build ID for Go binaries
+
+The Go toolchain only generates a Go build ID, but GNU build IDs are expected to
+present almost universally. Make sure to generate GNU build IDs for Go binaries
+like we do in Fedora packaging, so that rpmbuild is happy. Note, that not all Go
+toolchains we build with support -B gobuildid, hence populate the GNU build ID
+with random bytes, but leave a note about a fix we need here.
+
+Signed-off-by: Maciej Borzecki <maciej.borzecki@canonical.com>
+---
+ packaging/snapd.mk | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/packaging/snapd.mk b/packaging/snapd.mk
+index 2fb7ea15f87c8d5d8eb2906a8e4a157c91f26fb2..d4b30492eb8626c933202eb19d59cc4f85cb830e 100644
+--- a/packaging/snapd.mk
++++ b/packaging/snapd.mk
+@@ -65,10 +65,15 @@ endif
+ .PHONY: all
+ all: $(go_binaries) 
+ 
++# FIXME: not all Go toolchains we build with support '-B gobuildid', replace a
++# random GNU build ID with something more predictable, use something similar to
++# https://pagure.io/go-rpm-macros/c/1980932bf3a21890a9571effaa23fbe034fd388d
+ $(builddir)/snap: GO_TAGS += nomanagers
+ $(builddir)/snap $(builddir)/snap-seccomp $(builddir)/snapd-apparmor:
+ 	go build -o $@ $(if $(GO_TAGS),-tags "$(GO_TAGS)") \
+-		-buildmode=pie -ldflags=-w -mod=vendor \
++		-buildmode=pie \
++		-ldflags="-w -B 0x$$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')" \
++		-mod=vendor \
+ 		$(import_path)/cmd/$(notdir $@)
+ 
+ # Those three need to be built as static binaries. They run on the inside of a
+@@ -82,10 +87,13 @@ $(builddir)/snap-update-ns $(builddir)/snap-exec $(builddir)/snapctl:
+ 		-ldflags '-linkmode external -extldflags "-static"' \
+ 		$(import_path)/cmd/$(notdir $@)
+ 
++# XXX see the note about build ID in rule for building 'snap'
+ # Snapd can be built with test keys. This is only used by the internal test
+ # suite to add test assertions. Do not enable this in distribution packages.
+ $(builddir)/snapd:
+-	go build -o $@ -buildmode=pie -ldflags=-w -mod=vendor \
++	go build -o $@ -buildmode=pie \
++		-ldflags="-w -B 0x$$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')" \
++		-mod=vendor \
+ 		$(if $(GO_TAGS),-tags "$(GO_TAGS)") \
+ 		$(import_path)/cmd/$(notdir $@)
+ 
+-- 
+2.45.2
+
