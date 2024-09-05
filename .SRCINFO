@@ -1,7 +1,7 @@
 pkgbase = snapd
 	pkgdesc = Service and tools for management of snap packages.
-	pkgver = 2.63
-	pkgrel = 2
+	pkgver = 2.65.1
+	pkgrel = 1
 	url = https://github.com/snapcore/snapd
 	install = snapd.install
 	arch = x86_64
@@ -29,15 +29,7 @@ pkgbase = snapd
 	options = !strip
 	options = emptydirs
 	options = !lto
-	source = snapd-2.63.tar.xz::https://github.com/snapcore/snapd/releases/download/2.63/snapd_2.63.vendor.tar.xz
-	source = 0001-cmd-snap-seccomp-define-GNU_SOURCE-for-fallocate.patch
-	source = 0001-packaging-fix-invocation-of-the-built-snap-binary.patch
-	source = 0001-packaging-snapd.mk-generate-GNU-build-ID-for-Go-bina.patch
-	source = 0001-packaging-allow-passing-additional-Go-build-and-ldfl.patch
-	sha256sums = 2f0083d2c4e087c29f48cd1abb8a92eb2e63cf04cd433256c86fac05d0b28cab
-	sha256sums = f96cb34620105ae654f84296b8bbbc938608ff117dc987fbe1274f61681e333f
-	sha256sums = 794a75ed23c072302ee03fbff6f12f3c8c424d5892cb798731188ee126a28a6c
-	sha256sums = 86b892c6d8117624199d37fdbac807c4bade12c7acac4c7266fd8cebc33aa96b
-	sha256sums = d859fce2371bac6e1ab6f0eb2febf4ee028cb30c6e7581b24f972eab811a4a15
+	source = snapd-2.65.1.tar.xz::https://github.com/snapcore/snapd/releases/download/2.65.1/snapd_2.65.1.vendor.tar.xz
+	sha256sums = 826f8fa8021400326c7be40ea2d45c2d3f80288b41effba21cd5677fde5c2db0
 
 pkgname = snapd
