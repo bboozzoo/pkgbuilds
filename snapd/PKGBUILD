@@ -8,8 +8,8 @@ pkgdesc="Service and tools for management of snap packages."
 depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'apparmor')
 optdepends=('bash-completion: bash completion support'
             'xdg-desktop-portal: desktop integration')
-pkgver=2.63
-pkgrel=2
+pkgver=2.65.1
+pkgrel=1
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
 url="https://github.com/snapcore/snapd"
 license=('GPL3')
@@ -19,17 +19,9 @@ options=('!strip' 'emptydirs' '!lto')
 install=snapd.install
 source=(
     "$pkgname-$pkgver.tar.xz::https://github.com/snapcore/${pkgname}/releases/download/${pkgver}/${pkgname}_${pkgver}.vendor.tar.xz"
-    "0001-cmd-snap-seccomp-define-GNU_SOURCE-for-fallocate.patch"
-    "0001-packaging-fix-invocation-of-the-built-snap-binary.patch"
-    "0001-packaging-snapd.mk-generate-GNU-build-ID-for-Go-bina.patch"
-    "0001-packaging-allow-passing-additional-Go-build-and-ldfl.patch"
 )
 sha256sums=(
-    '2f0083d2c4e087c29f48cd1abb8a92eb2e63cf04cd433256c86fac05d0b28cab'
-    'f96cb34620105ae654f84296b8bbbc938608ff117dc987fbe1274f61681e333f'
-    '794a75ed23c072302ee03fbff6f12f3c8c424d5892cb798731188ee126a28a6c'
-    '86b892c6d8117624199d37fdbac807c4bade12c7acac4c7266fd8cebc33aa96b'
-    'd859fce2371bac6e1ab6f0eb2febf4ee028cb30c6e7581b24f972eab811a4a15'
+    '826f8fa8021400326c7be40ea2d45c2d3f80288b41effba21cd5677fde5c2db0'
 )
 
 
@@ -139,10 +131,6 @@ package() {
      SYSTEMDSYSTEMUNITDIR=/usr/lib/systemd/system \
      SNAP_MOUNT_DIR=/var/lib/snapd/snap \
      DESTDIR="$pkgdir"
-
-  # Install polkit policy
-  install -Dm644 data/polkit/io.snapcraft.snapd.policy \
-    "$pkgdir/usr/share/polkit-1/actions/io.snapcraft.snapd.policy"
 
   make -C cmd install DESTDIR="$pkgdir/"
 
