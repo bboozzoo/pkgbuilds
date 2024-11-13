@@ -8,7 +8,7 @@ pkgdesc="Service and tools for management of snap packages."
 depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'apparmor')
 optdepends=('bash-completion: bash completion support'
             'xdg-desktop-portal: desktop integration')
-pkgver=2.65.1
+pkgver=2.66.1
 pkgrel=1
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
 url="https://github.com/snapcore/snapd"
@@ -20,9 +20,7 @@ install=snapd.install
 source=(
     "$pkgname-$pkgver.tar.xz::https://github.com/snapcore/${pkgname}/releases/download/${pkgver}/${pkgname}_${pkgver}.vendor.tar.xz"
 )
-sha256sums=(
-    '826f8fa8021400326c7be40ea2d45c2d3f80288b41effba21cd5677fde5c2db0'
-)
+sha256sums=('5fa662062562443b2a005ed1aad359d6cc0c74ffbb555af701a4c1f510896b7b')
 
 
 prepare() {
@@ -90,6 +88,8 @@ __DEFINES__
   autoreconf -i -f
   ./configure \
     --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
     --libexecdir=/usr/lib/snapd \
     --with-snap-mount-dir=/var/lib/snapd/snap \
     --enable-apparmor \
