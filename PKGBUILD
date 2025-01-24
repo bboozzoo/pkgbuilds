@@ -9,7 +9,7 @@ depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'apparmor')
 optdepends=('bash-completion: bash completion support'
             'xdg-desktop-portal: desktop integration')
 pkgver=2.67
-pkgrel=1
+pkgrel=2
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
 url="https://github.com/snapcore/snapd"
 license=('GPL3')
@@ -19,8 +19,10 @@ options=('!strip' 'emptydirs' '!lto')
 install=snapd.install
 source=(
     "$pkgname-$pkgver.tar.xz::https://github.com/snapcore/${pkgname}/releases/download/${pkgver}/${pkgname}_${pkgver}.vendor.tar.xz"
+    "0001-data-packaging-separate-check-and-implicit-build-mak.patch"
 )
-sha256sums=('8c069713bb3a62201d64cec795c247e006673914f92b0bef3add0e5ff379716f')
+
+sha256sums=('8c069713bb3a62201d64cec795c247e006673914f92b0bef3add0e5ff379716f' '42b88779ea191ad803041440863c79daa11c2f98ae23d7097d238b3831511268')
 
 
 prepare() {
