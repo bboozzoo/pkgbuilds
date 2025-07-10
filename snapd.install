@@ -1,8 +1,13 @@
-  pre_remove() {
+_set_snap_confine_caps() {
+  /usr/bin/setcap -q - /usr/lib/snapd/snap-confine < /usr/lib/snapd/snap-confine.caps
+}
+
+post_install() {
+  _set_snap_confine_caps
+}
+
+pre_remove() {
   /usr/lib/snapd/snap-mgmt --purge || :
-  rm -f /etc/udev/rules.d/70-snap.*.rules || true
-  rm -f /etc/dbus-1/system.d/snap.* || true
-  rm -f /var/lib/snapd/system-key || true
 }
 
 post_upgrade() {
@@ -12,11 +17,23 @@ post_upgrade() {
   # which are needed in order to start any snaps, suggest to restart snapd if
   # we're upgrading from a version older than 2.62
   if (( $(vercmp "$2" '2.62-1') < 0)); then
+    echo
+    echo ">>> The snapd.service requires a restart for snaps to continue working. "
+    echo ">>> Run the following command after the update:"
+    echo ">>>    systemctl restart snapd.service"
+    echo
+  fi
+
+  _set_snap_confine_caps
+
+  if (( $(vercmp "$2" '2.70-1') < 0)); then
+    if aa-status --enabled > /dev/null 2>&1; then
       echo
-      echo ">>> The snapd.service requires a restart for snaps to continue working. "
+      echo ">>> The AppArmor profiles of snapd-confine needs to be reloaded."
       echo ">>> Run the following command after the update:"
-      echo ">>>    systemctl restart snapd.service"
+      echo ">>>    systemctl restart apparmor.service"
       echo
+    fi
   fi
 }
 

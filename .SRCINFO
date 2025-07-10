@@ -1,6 +1,6 @@
 pkgbase = snapd
 	pkgdesc = Service and tools for management of snap packages.
-	pkgver = 2.68.4
+	pkgver = 2.70
 	pkgrel = 1
 	url = https://github.com/snapcore/snapd
 	install = snapd.install
@@ -22,6 +22,7 @@ pkgbase = snapd
 	depends = squashfs-tools
 	depends = libseccomp
 	depends = libsystemd
+	depends = libcap
 	depends = apparmor
 	optdepends = bash-completion: bash completion support
 	optdepends = xdg-desktop-portal: desktop integration
@@ -29,7 +30,7 @@ pkgbase = snapd
 	options = !strip
 	options = emptydirs
 	options = !lto
-	source = snapd-2.68.4.tar.xz::https://github.com/snapcore/snapd/releases/download/2.68.4/snapd_2.68.4.vendor.tar.xz
-	sha256sums = 8c6ad7ee2c2a4cb5b59f836a74843cf8337e692dddd33b85c17418e7a6837e80
+	source = snapd-2.70.tar.xz::https://github.com/snapcore/snapd/releases/download/2.70/snapd_2.70.vendor.tar.xz
+	sha256sums = 208c4356e17e96f25f8e5d4cc9c5494157099d15c091a530bb4f260aae9cf88b
 
 pkgname = snapd
