@@ -5,10 +5,10 @@
 
 pkgname=snapd
 pkgdesc="Service and tools for management of snap packages."
-depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'apparmor')
+depends=('squashfs-tools' 'libseccomp' 'libsystemd' 'libcap' 'apparmor')
 optdepends=('bash-completion: bash completion support'
             'xdg-desktop-portal: desktop integration')
-pkgver=2.68.4
+pkgver=2.70
 pkgrel=1
 arch=('x86_64' 'i686' 'armv7h' 'aarch64')
 url="https://github.com/snapcore/snapd"
@@ -21,7 +21,7 @@ source=(
     "$pkgname-$pkgver.tar.xz::https://github.com/snapcore/${pkgname}/releases/download/${pkgver}/${pkgname}_${pkgver}.vendor.tar.xz"
 )
 
-sha256sums=('8c6ad7ee2c2a4cb5b59f836a74843cf8337e692dddd33b85c17418e7a6837e80')
+sha256sums=('208c4356e17e96f25f8e5d4cc9c5494157099d15c091a530bb4f260aae9cf88b')
 
 
 prepare() {
@@ -162,4 +162,7 @@ package() {
   rm -fv "$pkgdir/usr/lib/systemd/system/snapd.aa-prompt-listener.service"
   rm -fv "$pkgdir/usr/lib/systemd/user/snapd.aa-prompt-ui.service"
   rm -fv "$pkgdir/usr/share/dbus-1/services/io.snapcraft.Prompt.service"
+
+  # Remove gpio-chardev ordering target
+  rm -fv "$pkgdir/usr/lib/systemd/system/snapd.gpio-chardev-setup.target"
 }
